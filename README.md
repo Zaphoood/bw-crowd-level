@@ -5,7 +5,7 @@ Boulderwelt branches. Why, you ask? So I can do some cool analytics (and decide 
 
 ## Contributing
 
-They opened a new branch and it's missing? Please open an issue!
+They opened a new Boulderwelt branch and it's missing? Please open an issue!
 
 ---
 
