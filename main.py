@@ -80,11 +80,9 @@ def get_logger():
     return _logger
 
 
-def main():
-    base_urls = load_base_urls(Path("base_urls.csv"))
-    crowd_levels = {}
+def fetch_results(base_urls: dict[str, str]) -> dict[str, int]:
     logger = get_logger()
-
+    crowd_levels = {}
     with ThreadPoolExecutor(max_workers=len(base_urls)) as executor:
         future_to_branch = {
             executor.submit(fetch_crowd_level, branch, base_url): branch
@@ -102,9 +100,20 @@ def main():
                 branch = future_to_branch[future]
                 logger.exception("Request failed for branch '%s'", branch)
 
+    return crowd_levels
+
+
+def main():
+    logger = get_logger()
+
     save_dir = Path("results")
     save_dir.mkdir(exist_ok=True)
     save_path = save_dir / "crowd_levels.csv"
+    logger.info("Results will be saved to '%s'", save_path)
+
+    base_urls = load_base_urls(Path("base_urls.csv"))
+    crowd_levels = fetch_results(base_urls)
+
     save_results_to_disk(save_path, crowd_levels)
 
 
