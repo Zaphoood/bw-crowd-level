@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
-from datetime import time
+from datetime import datetime
 
 
 class CrowdLevelBase(BaseModel):
-    timestamp: time
+    timestamp: datetime
     branch: str = Field()
     level: int = Field(ge=0)
 
